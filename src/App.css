@@ -1,0 +1,9 @@
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.groupBy-Serach-container {
+  display: flex;
+  justify-content: space-around;
+}
