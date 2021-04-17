@@ -1,6 +1,23 @@
+
+
 .headerContainer {
-  display: flex;
   justify-content: space-between;
+}
+
+.addButton{
+  border-radius: 40%;
+}
+
+.Todos-tab{
+  margin-top: 60px;
+}
+
+.createdOn,.DueBT,.priorityBT,.SummaryBt{
+  float: right;
+}
+
+.head{
+  border-style: ridge;
 }
 
 .groupBy-Serach-container {
