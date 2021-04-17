@@ -1,5 +1,6 @@
 {
   "name": "todo-list-with-nice-ui",
+  "homepage": "https://pratikh.github.io/todo-list-with-nice-ui"
   "version": "0.1.0",
   "private": true,
   "dependencies": {
