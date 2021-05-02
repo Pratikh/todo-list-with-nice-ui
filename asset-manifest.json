@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/todo-list-with-nice-ui/static/css/main.1a547c2a.chunk.css",
-    "main.js": "/todo-list-with-nice-ui/static/js/main.ae509a71.chunk.js",
-    "main.js.map": "/todo-list-with-nice-ui/static/js/main.ae509a71.chunk.js.map",
-    "runtime-main.js": "/todo-list-with-nice-ui/static/js/runtime-main.fdc632a3.js",
-    "runtime-main.js.map": "/todo-list-with-nice-ui/static/js/runtime-main.fdc632a3.js.map",
+    "main.js": "/todo-list-with-nice-ui/static/js/main.1b1a3aaf.chunk.js",
+    "main.js.map": "/todo-list-with-nice-ui/static/js/main.1b1a3aaf.chunk.js.map",
+    "runtime-main.js": "/todo-list-with-nice-ui/static/js/runtime-main.729a960a.js",
+    "runtime-main.js.map": "/todo-list-with-nice-ui/static/js/runtime-main.729a960a.js.map",
     "static/css/2.f14e511e.chunk.css": "/todo-list-with-nice-ui/static/css/2.f14e511e.chunk.css",
-    "static/js/2.22a6012e.chunk.js": "/todo-list-with-nice-ui/static/js/2.22a6012e.chunk.js",
-    "static/js/2.22a6012e.chunk.js.map": "/todo-list-with-nice-ui/static/js/2.22a6012e.chunk.js.map",
-    "static/js/3.8dc3cc1d.chunk.js": "/todo-list-with-nice-ui/static/js/3.8dc3cc1d.chunk.js",
-    "static/js/3.8dc3cc1d.chunk.js.map": "/todo-list-with-nice-ui/static/js/3.8dc3cc1d.chunk.js.map",
+    "static/js/2.3df39c1e.chunk.js": "/todo-list-with-nice-ui/static/js/2.3df39c1e.chunk.js",
+    "static/js/2.3df39c1e.chunk.js.map": "/todo-list-with-nice-ui/static/js/2.3df39c1e.chunk.js.map",
+    "static/js/3.dc44336f.chunk.js": "/todo-list-with-nice-ui/static/js/3.dc44336f.chunk.js",
+    "static/js/3.dc44336f.chunk.js.map": "/todo-list-with-nice-ui/static/js/3.dc44336f.chunk.js.map",
     "index.html": "/todo-list-with-nice-ui/index.html",
     "static/css/2.f14e511e.chunk.css.map": "/todo-list-with-nice-ui/static/css/2.f14e511e.chunk.css.map",
     "static/css/main.1a547c2a.chunk.css.map": "/todo-list-with-nice-ui/static/css/main.1a547c2a.chunk.css.map",
-    "static/js/2.22a6012e.chunk.js.LICENSE.txt": "/todo-list-with-nice-ui/static/js/2.22a6012e.chunk.js.LICENSE.txt"
+    "static/js/2.3df39c1e.chunk.js.LICENSE.txt": "/todo-list-with-nice-ui/static/js/2.3df39c1e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.fdc632a3.js",
+    "static/js/runtime-main.729a960a.js",
     "static/css/2.f14e511e.chunk.css",
-    "static/js/2.22a6012e.chunk.js",
+    "static/js/2.3df39c1e.chunk.js",
     "static/css/main.1a547c2a.chunk.css",
-    "static/js/main.ae509a71.chunk.js"
+    "static/js/main.1b1a3aaf.chunk.js"
   ]
 }
