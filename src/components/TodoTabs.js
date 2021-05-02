@@ -37,11 +37,13 @@ const TodoRows = () => {
       </div>
       <div className="col head">
         <span>Created On</span>
-        <Button className="createdOn">^</Button>
       </div>
       <div className="col head">
         <span>Due By</span>
         <Button className="DueBT" onClick={dueDateSortByClick}>^</Button>
+      </div>
+      <div className="col head">
+        <span>User name</span>
       </div>
       <div className="col head">
         <span>Actions</span>
@@ -54,14 +56,14 @@ const TodoRows = () => {
 const TodoTabs = () => {
   const [modalShow, setModalShow] = useState(false);
   const todoList = useSelector(store => store.todoList);
-  const searchKey = useSelector(store => store.searchKey);
+  const searchKey = useSelector(store => store.searchKey).toLowerCase();
   const completed = () => {
     return todoList.filter(list => !list.done)
   }
 
   const filteredSearchList = () => { // based on search string filter out data and pass to row component to show.
     return todoList.filter(list => {
-      return list.summary.includes(searchKey) || list.discription.includes(searchKey).summary
+      return list.summary.toLowerCase().includes(searchKey);
     })
   }
 

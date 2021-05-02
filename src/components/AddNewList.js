@@ -6,18 +6,13 @@ import {
 } from "react-bootstrap";
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
-import { addNewTaskAction, updateTodoListAction, clearEditTaskID } from '../reduxStore'
-
-const priorityMapper = {
-  0: 'None',
-  1: 'Low',
-  2: 'Medium',
-  3: 'High',
-}
+import { addNewTaskAction } from '../reduxStore';
+import { DATE_FORMAT, PRIORITY_MAPPER } from './constants'
+import _ from "lodash";
 
 function AddNewList(props) {
-  const editTaskId = useSelector(state => state.editTaskId)
   const dispatch = useDispatch();
+  const userName = useSelector(state => state.userName)
   const [summary, setSummary] = useState();
   const [discription, setDiscription] = useState();
   const [dueDate, setDueDate] = useState();
@@ -32,7 +27,7 @@ function AddNewList(props) {
   }
 
   const onDueDateChange = ({ target: { value } }) => {
-    const customDate = moment(value).format('DD/MM/YYYY')
+    const customDate = moment(value).format(DATE_FORMAT)
     setDueDate(customDate);
   }
 
@@ -40,24 +35,22 @@ function AddNewList(props) {
     setPriority(value);
   }
 
-  const onSaveClick = () => {
-    if (!summary && !discription && !dueDate && !priority) { // if data is empty then dont dispatch payload.
+  const onSaveClick = (event) => {
+    event && event.preventDefault();
+    if (_.isEmpty(summary) || _.isEmpty(discription)) { // if data is empty then dont dispatch payload.
+      props.onHide();
       return;
     }
     const payload = {
       summary,
       discription,
-      dueDate: dueDate || moment(new Date()).format('DD/MM/YYYY'),
-      priority: priorityMapper[priority || '0'],
-      numberPriority: priority || 0
+      dueDate: dueDate || moment(new Date()).format(DATE_FORMAT),
+      priority: PRIORITY_MAPPER[priority || '0'],
+      numberPriority: priority || 0,
+      userName
     }
-    if (!!editTaskId) { // If in edit component then dispatch update data only
-      payload.id = editTaskId;
-      dispatch(updateTodoListAction(payload));
-    } else { // pass payload data
-      dispatch(addNewTaskAction(payload));
-    }
-    dispatch(clearEditTaskID());
+    console.log(payload);
+    dispatch(addNewTaskAction(payload));
     props.onHide();
   }
 
@@ -72,7 +65,7 @@ function AddNewList(props) {
         <Modal.Title id="contained-modal-title-vcenter">Add Task</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={onSaveClick}>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Summary</Form.Label>
             <Form.Control type="text" onChange={onSummaryChange} />
@@ -102,7 +95,9 @@ function AddNewList(props) {
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
         <Button onClick={onSaveClick}>Save</Button>
+
       </Modal.Footer>
+
     </Modal>
   );
 }

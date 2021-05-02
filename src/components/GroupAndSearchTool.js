@@ -32,6 +32,7 @@ const GroupAndSearchTool = () => {
                     <option value='1'>Created On</option>
                     <option value='2'>Pending On</option>
                     <option value='3'>Priority</option>
+                    <option value='4'>Created by</option>
                 </Form.Control>
             </div>
             <div className="searchContainer col" >
@@ -39,7 +40,7 @@ const GroupAndSearchTool = () => {
                 <form onSubmit={onSubmit}>
                     <InputGroup className="mb-3"  >
                         <FormControl
-                            placeholder="Search for task, hit enter to search. Clear to show all list. (Case sensitive)"
+                            placeholder="Search for task, hit enter to search. Clear to show all list."
                             onChange={onSearchInputChange}
                         />
                     </InputGroup>
