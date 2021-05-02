@@ -7,7 +7,7 @@ import {
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
 import { addNewTaskAction } from '../reduxStore';
-import { DATE_FORMAT, PRIORITY_MAPPER } from './constants'
+import { DATE_FORMAT, PRIORITY_MAPPER } from '../constants'
 import _ from "lodash";
 
 function AddNewList(props) {
@@ -18,24 +18,24 @@ function AddNewList(props) {
   const [dueDate, setDueDate] = useState();
   const [priority, setPriority] = useState('0');
 
-  const onSummaryChange = ({ target: { value } }) => {
+  function onSummaryChange({ target: { value } }) {
     setSummary(value);
   }
 
-  const onDiscriptionChange = ({ target: { value } }) => {
+  function onDiscriptionChange({ target: { value } }) {
     setDiscription(value);
   }
 
-  const onDueDateChange = ({ target: { value } }) => {
+  function onDueDateChange({ target: { value } }) {
     const customDate = moment(value).format(DATE_FORMAT)
     setDueDate(customDate);
   }
 
-  const onPriorityChange = ({ target: { value } }) => {
+  function onPriorityChange({ target: { value } }) {
     setPriority(value);
   }
 
-  const onSaveClick = (event) => {
+  function onSaveClick(event) {
     event && event.preventDefault();
     if (_.isEmpty(summary) || _.isEmpty(discription)) { // if data is empty then dont dispatch payload.
       props.onHide();
@@ -49,7 +49,6 @@ function AddNewList(props) {
       numberPriority: priority || 0,
       userName
     }
-    console.log(payload);
     dispatch(addNewTaskAction(payload));
     props.onHide();
   }
@@ -70,7 +69,6 @@ function AddNewList(props) {
             <Form.Label>Summary</Form.Label>
             <Form.Control type="text" onChange={onSummaryChange} />
           </Form.Group>
-
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Discription</Form.Label>
             <Form.Control as="textarea" rows={3} onChange={onDiscriptionChange} />
@@ -95,9 +93,7 @@ function AddNewList(props) {
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
         <Button onClick={onSaveClick}>Save</Button>
-
       </Modal.Footer>
-
     </Modal>
   );
 }

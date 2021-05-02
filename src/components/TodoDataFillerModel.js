@@ -7,7 +7,7 @@ import {
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
 import { updateTodoListAction } from '../reduxStore';
-import { DATE_FORMAT, PRIORITY_MAPPER } from './constants';
+import { DATE_FORMAT, PRIORITY_MAPPER } from '../constants';
 
 export default function EditTodoDetails(props) {
     const dispatch = useDispatch();
@@ -18,24 +18,24 @@ export default function EditTodoDetails(props) {
     const [dueDate, setDueDate] = useState(editableTodoData.dueDate);
     const [priority, setPriority] = useState(editableTodoData.numberPriority);
 
-    const onSummaryChange = ({ target: { value } }) => {
+    function onSummaryChange({ target: { value } }) {
         setSummary(value);
     }
 
-    const onDiscriptionChange = ({ target: { value } }) => {
+    function onDiscriptionChange({ target: { value } }) {
         setDiscription(value);
     }
 
-    const onDueDateChange = ({ target: { value } }) => {
+    function onDueDateChange({ target: { value } }) {
         const customDate = moment(value).format(DATE_FORMAT)
         setDueDate(customDate);
     }
 
-    const onPriorityChange = ({ target: { value } }) => {
+    function onPriorityChange({ target: { value } }) {
         setPriority(value);
     }
 
-    const onSaveClick = (event) => {
+    function onSaveClick(event) {
         event && event.preventDefault();
         const payload = {
             summary,
@@ -56,8 +56,7 @@ export default function EditTodoDetails(props) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            show={props.show}
-        >
+            show={props.show}>
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">Add Task</Modal.Title>
             </Modal.Header>

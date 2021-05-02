@@ -11,17 +11,18 @@ import {
 } from '../reduxStore'
 import AddNewList from './AddNewList';
 
-const TodoRows = () => {
+function TodoRows() {
   const dispatch = useDispatch();
-  const dueDateSortByClick = () => {
+
+  function dueDateSortByClick() {
     dispatch(dueDateSprtByAction());
   }
 
-  const priorityWiseSortList = () => {
+  function priorityWiseSortList() {
     dispatch(priorityWiseSortAction());
   }
 
-  const summaryWiseSortList = () => {
+  function summaryWiseSortList() {
     dispatch(summaryWiseSortAction());
   }
 
@@ -53,15 +54,15 @@ const TodoRows = () => {
 }
 
 
-const TodoTabs = () => {
+function TodoTabs() {
   const [modalShow, setModalShow] = useState(false);
   const todoList = useSelector(store => store.todoList);
-  const searchKey = useSelector(store => store.searchKey).toLowerCase();
-  const completed = () => {
+  const searchKey = useSelector(store => store.searchKey)?.toLowerCase();
+  function completed() {
     return todoList.filter(list => !list.done)
   }
 
-  const filteredSearchList = () => { // based on search string filter out data and pass to row component to show.
+  function filteredSearchList() { // based on search string filter out data and pass to row component to show.
     return todoList.filter(list => {
       return list.summary.toLowerCase().includes(searchKey);
     })
@@ -69,8 +70,12 @@ const TodoTabs = () => {
 
   const filteredData = filteredSearchList();
 
-  const pending = () => {
+  function pending() {
     return todoList.filter(list => list.done)
+  }
+
+  function onHide() {
+    setModalShow(false)
   }
 
   return (
@@ -79,25 +84,25 @@ const TodoTabs = () => {
         <Tab eventKey="home" title="All">
           <div>
             <TodoRows />
-            <TodoListRow todoList={filteredData} onclickmodelshow={() => setModalShow(true)} />
+            <TodoListRow todoList={filteredData} />
           </div>
         </Tab>
         <Tab eventKey="pending" title="Pending">
           <div>
             <TodoRows />
-            <TodoListRow todoList={completed()} onclickmodelshow={() => setModalShow(true)} />
+            <TodoListRow todoList={completed()} />
           </div>
         </Tab>
         <Tab eventKey="completed" title="Completed">
           <div>
             <TodoRows />
-            <TodoListRow todoList={pending()} onclickmodelshow={() => setModalShow(true)} />
+            <TodoListRow todoList={pending()} />
           </div>
         </Tab>
       </Tabs>
       <AddNewList
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={onHide}
       />
     </div>
   )

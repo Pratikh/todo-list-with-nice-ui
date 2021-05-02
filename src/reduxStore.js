@@ -1,66 +1,11 @@
 import { applyMiddleware, createStore } from "redux";
-import { v4 } from "uuid";
 import moment from 'moment';
 import _ from 'lodash';
 import logger from "redux-logger";
 import { getLocalStorageState, setLocalStorageState } from './localStorageHelper'
+import { STORE_INITIAL_DATA, DATE_FORMAT } from './constants';
 window._ = _;
 window.moment = moment;
-
-
-// Store initial state, just dummy data to show.
-const initialStore = {
-    userName: 'Guru',
-    todoList: [
-        {
-            id: v4(),
-            summary: ' Go to gym ',
-            discription: 'Make 100 push up',
-            dueDate: '16/04/2021',
-            priority: 'High',
-            done: false,
-            numberPriority: 3,
-            createdOn: moment(new Date()).format('DD/MM/YYYY'),
-            userName: 'Guru',
-        },
-        {
-            id: v4(),
-            summary: ' Market ',
-            discription: 'Bring 10KG tomato',
-            dueDate: '17/04/2021',
-            priority: 'Medium',
-            done: false,
-            numberPriority: 2,
-            createdOn: moment(new Date()).format('DD/MM/YYYY'),
-            userName: 'Guru',
-        },
-        {
-            id: v4(),
-            summary: ' Home work ',
-            discription: 'Write essay on school',
-            dueDate: '18/04/2021',
-            priority: 'Low',
-            done: false,
-            numberPriority: 1,
-            userName: 'Guru',
-            createdOn: moment(new Date()).format('DD/MM/YYYY')
-        },
-        {
-            id: v4(),
-            summary: ' Swimming ',
-            discription: 'Goto swimming classes',
-            dueDate: '20/04/2021',
-            priority: 'None',
-            done: false,
-            numberPriority: 0,
-            userName: 'Guru',
-            createdOn: moment(new Date()).format('DD/MM/YYYY')
-        },
-    ],
-    editTaskId: null,
-    searchKey: '',
-    groupBy: 0,
-}
 
 // Action type constants
 let DUE_DATE_TOGGLE = false;
@@ -73,8 +18,6 @@ const DONE = 'DONE';
 const DUE_DATE_SORT_BY = 'DUE_DATE_SORT_BY';
 const PRIORITY_WISE_SORT = 'PRIORITY_WISE_SORT';
 const SUMMARY_SORT = 'SUMMARY_SORT';
-const EDIT_TASK_ID = 'EDIT_TASK_ID';
-const CLEAR_EDIT_TASK_ID = 'CLEAR_EDIT_TASK_ID';
 const SEARCH_KEY = 'SEARCH_KEY';
 const SET_GROUP_BY = 'SET_GROUP_BY';
 const CHANGE_USER_NAME = 'CHANGE_USER_NAME';
@@ -85,10 +28,10 @@ export function addNewTaskAction(payload) {
     return {
         type: ADD_TODO_LIST,
         payload: {
-            id: v4(),
+            id: _.uniqueId(),
             done: false,
+            createdOn: moment(new Date()).format(DATE_FORMAT),
             ...payload,
-            createdOn: moment(new Date()).format('DD/MM/YYYY')
         }
     }
 }
@@ -122,10 +65,10 @@ export function doneTodoListAction(payload) {
 }
 
 export function updateUserAction(payload) {
-    return ({
+    return {
         type: CHANGE_USER_NAME,
         payload
-    })
+    }
 }
 
 export function dueDateSprtByAction() {
@@ -146,19 +89,6 @@ export function summaryWiseSortAction() {
     }
 }
 
-export function editTaskID(payload) {
-    return {
-        type: EDIT_TASK_ID,
-        payload,
-    }
-}
-
-export function clearEditTaskID() {
-    return {
-        type: CLEAR_EDIT_TASK_ID,
-    }
-}
-
 
 export function addGroupByAction(payload) {
     return {
@@ -169,18 +99,18 @@ export function addGroupByAction(payload) {
 
 // Reducers and helper functions
 
-function toggleDoneFag(todolist, id) {
-    const copyArray = [...todolist];
-    copyArray.forEach(list => {
+function toggleDoneFlag(todolist, id) {
+    const copyData = JSON.parse(JSON.stringify(todolist));
+    copyData.forEach(list => {
         if (list.id === id) {
             list.done = !list.done;
         }
     });
-    return copyArray;
+    return copyData;
 }
 
 function sortBySummary(todolist) {
-    const copyData = [...todolist];
+    const copyData = JSON.parse(JSON.stringify(todolist));
     let sortedData = _.sortBy(copyData, list => list.summary.toLowerCase());
     if (SUMMARY_SORT_TOGGLE) {
         sortedData = _.reverse(sortedData)
@@ -190,7 +120,7 @@ function sortBySummary(todolist) {
 }
 
 function sortByPriorityWise(todolist) {
-    const copyData = [...todolist];
+    const copyData = JSON.parse(JSON.stringify(todolist));
     let sortedData = _.sortBy(copyData, list => list.numberPriority);
     if (PRIORITY_TOGGLE) {
         sortedData = _.reverse(sortedData)
@@ -201,8 +131,7 @@ function sortByPriorityWise(todolist) {
 
 function sortTaskByDate(todolist) {
     const todayDate = moment(new Date());
-
-    const copyData = [...todolist];
+    const copyData = JSON.parse(JSON.stringify(todolist));
     copyData.forEach((list) => {
         const dateSplitted = list.dueDate.split('/');
         const diff = todayDate.diff([dateSplitted[2], dateSplitted[1], dateSplitted[0]]);
@@ -217,20 +146,19 @@ function sortTaskByDate(todolist) {
 }
 
 function updateTodoList(todolist, payload) {
-    const copyData = [...todolist];
-    const cleanPayload = JSON.parse(JSON.stringify(payload));
-    copyData.forEach((list, index) => {
-        if (list.id === cleanPayload.id) {
-            const keys = Object.keys(cleanPayload);
-            keys.forEach(k => {
-                list[k] = cleanPayload[k];
+    const copyData = JSON.parse(JSON.stringify(todolist));
+    copyData.forEach((list) => {
+        if (list.id === payload.id) {
+            const keys = Object.keys(payload);
+            keys.forEach(key => {
+                list[key] = payload[key];
             })
         }
     });
     return copyData;
 }
 
-function reducer(state = initialStore, { type, payload }) {
+function reducer(state, { type, payload }) {
     switch (type) {
         case ADD_TODO_LIST:
             return {
@@ -248,10 +176,9 @@ function reducer(state = initialStore, { type, payload }) {
                 todoList: state.todoList.filter(list => list.id !== payload),
             }
         case DONE:
-
             return {
                 ...state,
-                todoList: toggleDoneFag(state.todoList, payload),
+                todoList: toggleDoneFlag(state.todoList, payload),
             }
         case DUE_DATE_SORT_BY:
             return {
@@ -268,22 +195,11 @@ function reducer(state = initialStore, { type, payload }) {
                 ...state,
                 todoList: sortBySummary(state.todoList)
             }
-        case EDIT_TASK_ID:
-            return {
-                ...state,
-                editTaskId: payload
-            }
-        case CLEAR_EDIT_TASK_ID:
-            return {
-                ...state,
-                editTaskID: null,
-            }
         case SEARCH_KEY:
             return {
                 ...state,
                 searchKey: payload,
             }
-
         case SET_GROUP_BY:
             return {
                 ...state,
@@ -299,12 +215,14 @@ function reducer(state = initialStore, { type, payload }) {
     }
 }
 
-const getInitalData = getLocalStorageState(initialStore);
-const store = createStore(reducer, getInitalData, applyMiddleware(logger));
+const getInitalData = getLocalStorageState(STORE_INITIAL_DATA);
+
 function onStoreUpdate() {
-    console.log('update');
     setLocalStorageState(store.getState())
 }
+
+const store = createStore(reducer, getInitalData, applyMiddleware(logger));
+
 store.subscribe(_.throttle(onStoreUpdate, 1000))
 
 export default store;

@@ -19,12 +19,12 @@ function NameChange() {
   const handleShow = () => setShow(true);
   const userName = useSelector(state => state.userName);
   const [name, setName] = useState(userName)
-  const onInputChange = ({ currentTarget: { value } }) => {
+
+  function onInputChange({ currentTarget: { value } }) {
     setName(value)
   }
 
-
-  const onSaveClick = (event) => {
+  function onSaveClick(event) {
     event && event.preventDefault();
     !_.isEmpty(name) && dispatch(updateUserAction(name));
     handleClose();
@@ -49,7 +49,6 @@ function NameChange() {
                 aria-describedby="inputGroup-sizing-default"
                 value={name}
                 onChange={onInputChange}
-
               />
             </InputGroup>
           </Form>
@@ -67,7 +66,7 @@ function NameChange() {
   );
 }
 
-const Header = () => {
+function Header() {
   const [modalShow, setModalShow] = useState(false);
   const userName = useSelector(store => store.userName);
   return (

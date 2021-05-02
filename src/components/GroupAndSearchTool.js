@@ -7,19 +7,19 @@ import {
 import { useDispatch } from "react-redux";
 import { searchKeyAction, addGroupByAction } from '../reduxStore'
 
-const GroupAndSearchTool = () => {
+function GroupAndSearchTool() {
     const dispatch = useDispatch();
     const [search, setSearch] = useState('');
-    const onSearchInputChange = ({ target: { value } }) => {
+    function onSearchInputChange({ target: { value } }) {
         setSearch(value);
     }
 
-    const onSubmit = (event) => {
+    function onSubmit(event) {
         event.preventDefault();
         dispatch(searchKeyAction(search))
     }
 
-    const onGroupByChange = ({ target: { value } }) => {
+    function onGroupByChange({ target: { value } }) {
         dispatch(addGroupByAction(+value)); // need value on number type, not in string type.
     }
 

@@ -9,23 +9,24 @@ import _, { uniqueId } from 'lodash'
 import TodoEditModel from './TodoDataFillerModel'
 import { useState } from "react";
 
-const style = (done) => {
+function style(done) {
   return { textDecoration: done ? 'line-through' : 'auto', }
 }
 
-const TodoListRow = ({ onclickmodelshow, todoList }) => {
+function TodoListRow({ todoList }) {
   const dispatch = useDispatch();
 
-  const onDoneClick = (id) => {
+  function onDoneClick(id) {
     dispatch(doneTodoListAction(id));
   }
 
-  const onDeleteClick = (id) => {
+  function onDeleteClick(id) {
     dispatch(deletTodoListAction(id));
   }
 
   const groupBy = useSelector(store => store.groupBy);
-  const groupByFun = () => { // get group by data based to todo list details.
+
+  function groupByFun() { // get group by data based to todo list details.
     switch (groupBy) {
       case 0:
         return { None: todoList };
@@ -50,8 +51,12 @@ const TodoListRow = ({ onclickmodelshow, todoList }) => {
     }
   }
 
-  const RowsComponentParent = ({ data: { id, summary, dueDate, createdOn, priority, done, userName } }) => {
+  function RowsComponentParent({ data: { id, summary, dueDate, createdOn, priority, done, userName } }) {
     const [modalShow, setModalShow] = useState(false);
+
+    function showEditModel(flag) {
+      setModalShow(flag)
+    }
 
     return (
       <div key={id} className="Headings row">
@@ -74,9 +79,7 @@ const TodoListRow = ({ onclickmodelshow, todoList }) => {
         </div>
         <div className="col head">
           <div className="row">
-            <Button variant="primary" size="sm" className="editBT col" onClick={() => {
-              setModalShow(true);
-            }}>
+            <Button variant="primary" size="sm" className="editBT col" onClick={showEditModel.bind({}, true)}>
               {'Edit'}
             </Button>
             <Button variant="success" className="doneBT col" onClick={onDoneClick.bind({}, id)}>
@@ -87,14 +90,12 @@ const TodoListRow = ({ onclickmodelshow, todoList }) => {
               </Button>
           </div>
         </div>
-        <TodoEditModel show={modalShow} todoId={id} setModalShow={() => {
-          setModalShow(false);
-        }} />
+        <TodoEditModel show={modalShow} todoId={id} setModalShow={showEditModel.bind({}, false)} />
       </div>
     )
   }
 
-  const Header = ({ groupData }) => {
+  function Header({ groupData }) {
     return groupData.map((data) => {
       return (
         <div key={data.id} className="Headings row">
@@ -104,7 +105,8 @@ const TodoListRow = ({ onclickmodelshow, todoList }) => {
 
     })
   }
-  const Component = () => {
+
+  function Component() {
     const groupbyData = groupByFun();
     return Object.keys(groupbyData).map((key, i) => {
       return (
@@ -119,9 +121,7 @@ const TodoListRow = ({ onclickmodelshow, todoList }) => {
     })
   }
 
-  return (< >
-    <Component />
-  </>)
+  return (<Component />)
 }
 
 export default TodoListRow;
